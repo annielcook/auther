@@ -14,7 +14,22 @@ app.use(require('./requestState.middleware'));
 app.use(require('./statics.middleware'));
 
 app.use(session({
-  secret: 'tongiscool'
+  // resave forces the session to be saved back to the session store
+  // even if the session was never modified during the request
+  // resave is only necessary for certain session stores
+  // in our case we shouldn't need it
+  resave: false,
+  // by setting saveUninitialized to false
+  // we will be preventing the session from being created
+  // until it has data associated with it
+  saveUninitialized: false,
+  // the secret encrypts the session id cookie
+  secret: 'tongiscool',
+  cookie: {
+    // this keeps the session cookie from being sent over HTTP
+    // otherwise it would be easy to hijack the session!
+    secure: true
+  }
 }));
 
 app.use(function(req, res, next) {
