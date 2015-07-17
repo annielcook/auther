@@ -15,9 +15,9 @@
 				<li ui-sref-active="active"><a ui-sref="stories">stories</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
-				<li ui-sref-active="active"><a ui-sref="signup">signup</a></li>
-				<li ui-sref-active="active"><a ui-sref="login">login</a></li>
-				<li ui-sref-active="active"><a href="/logout" target="_self">logout</a></li>
+				<li ui-sref-active="active" ng-hide="currentUser"><a ui-sref="signup">signup</a></li>
+				<li ui-sref-active="active" ng-hide="currentUser"><a ui-sref="login">login</a></li>
+				<li ui-sref-active="active" ng-show="currentUser"><a href="/auth/logout" target="_self">logout</a></li>
 			</ul>
 		</div>
 	</div>

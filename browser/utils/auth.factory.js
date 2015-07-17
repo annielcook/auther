@@ -12,5 +12,6 @@ app.factory('Auth', function(User, $http) {
           return res.data;
         });
     }
+
   }
 });

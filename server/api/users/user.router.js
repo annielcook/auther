@@ -5,6 +5,7 @@ var router = require('express').Router(),
 
 var HttpError = require('../../utils/HttpError');
 var User = require('./user.model');
+var isAuthenticated = require('../../auth/auth.middleware');
 
 router.param('id', function(req, res, next, id) {
   User.findById(id).exec()
@@ -26,6 +27,7 @@ router.get('/', function(req, res, next) {
     .then(null, next);
 });
 
+
 router.post('/', function(req, res, next) {
   User.create(req.body)
     .then(function(user) {
@@ -34,12 +36,6 @@ router.post('/', function(req, res, next) {
     .then(null, next);
 });
 
-// router.get('/logout', function(req, res, next) {
-//   console.log(req.session);
-//   console.log('hi')
-//   req.session = undefined;
-//   //res.redirect('/');
-// })
 
 router.get('/:id', function(req, res, next) {
   req.requestedUser.getStories().then(function(stories) {
@@ -50,6 +46,7 @@ router.get('/:id', function(req, res, next) {
     .then(null, next);
 });
 
+router.put('/:id', isAuthenticated);
 router.put('/:id', function(req, res, next) {
   console.log('req.body', req.body);
   _.extend(req.requestedUser, req.body);
@@ -60,6 +57,8 @@ router.put('/:id', function(req, res, next) {
     .then(null, next);
 });
 
+
+router.delete('/:id', isAuthenticated);
 router.delete('/:id', function(req, res, next) {
   req.requestedUser.remove()
     .then(function() {
